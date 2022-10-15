@@ -21,11 +21,23 @@ const style1 = {
 
 const Mint = () => {
     const { account, web3Provider } = useContext(GlobalContext)
-    const [active, setActive] = useState(0);
+    const [mintAmount, setMintAmount] = useState(1);
     const [loading, setLoading] = useState(false)
     const [cost, setCost] = useState(0);
     const [pCost, setPCost] = useState(0);
     const [isPresale, setIsPresale] = useState(true)
+
+    const decrement = () => {
+        if (mintAmount > 1) {
+            setMintAmount(mintAmount - 1)
+        }
+    }
+
+    const increment = () => {
+        if (mintAmount < 15) {
+            setMintAmount(mintAmount + 1)
+        }
+    }
 
     const loadBlockChainData = async () => {
         const contract = new ethers.Contract(CONFIG.NFT_CONTRACT, contractABI, web3Provider)
@@ -46,19 +58,19 @@ const Mint = () => {
         try {
             setLoading(true)
             const nftPrice = isPresale ? pCost : cost
-            const netPrice = parseFloat(nftPrice) * active
+            const netPrice = parseFloat(nftPrice) * mintAmount
             const totCost = ethers.utils.parseEther(netPrice.toString())
             const signer = web3Provider.getSigner()
             const contract = new ethers.Contract(CONFIG.NFT_CONTRACT, contractABI, signer)
             console.log(netPrice.toString())
             console.log(totCost.toString())
-            const estimateGas = await contract.estimateGas.mint(active, {value: totCost.toString(), from: account})
+            const estimateGas = await contract.estimateGas.mint(mintAmount, {value: totCost.toString(), from: account})
             const txObj = {
                 gasLimit: estimateGas.toString(), 
                 from: account, 
                 value: totCost.toString()
             }
-            const tx = await contract.mint(active, txObj)
+            const tx = await contract.mint(mintAmount, txObj)
             await tx.wait()
             setLoading(false)
             Swal.fire({
@@ -90,18 +102,22 @@ const Mint = () => {
                 <div className="mint-content-holder">
                     <div data-w-id="1e9f008d-3b16-26ec-972f-28ec3f78cf8b" style={{ opacity: '0' }} className="typo-howmany">How many NFTS you want to mint?</div>
                     <div className="button-holder numbers">
-                        <div data-w-id="19c5a547-2677-698c-be60-eea6a54e999a" style={{ opacity: '0' }} className={classNames('button-nav-small numbers-mint', { 'active': active == 1 })} onClick={e => setActive(1)}>
-                            <div className="typo-number-button">1</div>
+                        <div data-w-id="19c5a547-2677-698c-be60-eea6a54e999a" style={{ opacity: '0' }} className={classNames('button-nav-small numbers-mint', {})} onClick={decrement}>
+                            <div className="typo-number-button">
+                                <svg width={20} fill="#f6e7c9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z"/></svg>
+                            </div>
                         </div>
-                        <div data-w-id="d9e09c1f-e5b1-b0d7-b960-03d7f0605b55" style={{ opacity: '0' }} className={classNames('button-nav-small numbers-mint', { 'active': active == 2 })} onClick={e => setActive(2)}>
-                            <div className="typo-number-button">2</div>
+                        <div data-w-id="d9e09c1f-e5b1-b0d7-b960-03d7f0605b55" style={{ opacity: '0' }} className={classNames('tw-text-[#f6e7c9] tw-mx-4 ', {})} >
+                            <div className="typo-number-button tw-cursor-default">{mintAmount}</div>
                         </div>
-                        <div data-w-id="0517ba78-cebe-58f2-11c0-289f84f512a6" style={{ opacity: '0' }} className={classNames('button-nav-small numbers-mint', { 'active': active == 3 })} onClick={e => setActive(3)}>
-                            <div className="typo-number-button">3</div>
+                        <div data-w-id="0517ba78-cebe-58f2-11c0-289f84f512a6" style={{ opacity: '0' }} className={classNames('button-nav-small numbers-mint', { })} onClick={increment}>
+                            <div className="typo-number-button">
+                                <svg width={20} fill="#f6e7c9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+                            </div>
                         </div>
-                        <div data-w-id="822ee4ad-6a63-ffc7-c459-0e8df7696441" style={{ opacity: '0' }} className={classNames('button-nav-small numbers-mint', { 'active': active == 4 })} onClick={e => setActive(4)}>
+                        {/* <div data-w-id="822ee4ad-6a63-ffc7-c459-0e8df7696441" style={{ opacity: '0' }} className={classNames('button-nav-small numbers-mint', { 'active': active == 4 })} onClick={e => setActive(4)}>
                             <div className="typo-number-button">4</div>
-                        </div>
+                        </div> */}
                     </div>
                     <a data-w-id="f418f5d1-e7c5-d16d-eefd-a115a7d70050" style={{ opacity: '0' }} href="#" className="primary-button mint w-button" onClick={handleMint}>mint</a>
                     <div data-w-id="0add2313-30fb-4bdb-9f4c-6787d2fe5dae" style={{ opacity: '0' }} className="typo-cost">Cost: {isPresale ? pCost : cost} ETH + gas fee</div>
