@@ -184,6 +184,10 @@ a {
   background-color: #f6e7c9;
   color: #170a08;
 }
+.button-nav-small.numbers-mint.active {
+  background-color: #f6e7c9;
+  color: #170a08;
+}
 
 .button-nav-small.numbers-mint:focus {
   background-color: #f6e7c9;
@@ -205,11 +209,6 @@ a {
 }
 
 .button-nav-small.days.active {
-  background-color: #f6e7c9;
-  color: #120908;
-}
-
-.button-nav-small.numbers-mint.active {
   background-color: #f6e7c9;
   color: #120908;
 }
@@ -2523,7 +2522,7 @@ a {
   font-size: 19px;
   line-height: 1.42105263158;
   font-weight: 300;
-  text-align: center;
+  text-align: left;
   letter-spacing: 0.01em;
 }
 

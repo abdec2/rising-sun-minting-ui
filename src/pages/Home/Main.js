@@ -67,14 +67,16 @@ const Main = ({ setError, setErrMsg }) => {
 
 
   return (
-    <section className="stake-and-earn wf-section">
-      <h2 data-w-id="dd94e943-0d2f-0166-be77-07d29f9437fd" style={styleobj} className="main-title stake-title main-h2-customStyle">STAKE and earn</h2>
-      <div className="stake-content">
-        <p data-w-id="f70c0a51-08da-0411-b870-daee4d757f7e" style={{ opacity: 0 }} className="typo-mint-content">You can buy ETH directly through Metamask or you can transfer some from another wallet or crypto exchange.</p>
-        <a data-w-id="50077320-d150-c3b1-99d4-af4e6fb8fa39" style={{ opacity: 0 }} href="#" className="primary-button w-button" onClick={connectWallet}>CONNECT WALLET</a>
+    <section className="mint-shadow-descendants wf-section">
+      <h2 data-w-id="931fd848-333c-25ef-5654-578b6d0e046e" style={styleobj} className="main-title mint1">MINT Shadow Descendants</h2>
+      <div className="mint-content-holder-wallet">
+        <p data-w-id="4c251f4d-2764-9940-583e-fafc3a2006ef" style={{ opacity: 0 }} className="typo-mint-content">Click at the button below to connect your wallet. At the next step click MINT and the amount you want to mint. The minting dialog allows you to mint up to 4 Shadow Descentdants at a time.</p>
+        <a data-w-id="ecf6149e-7bcd-dc8c-c08f-f30f2dcfd42e" style={{ opacity: 0 }} href="#" className="primary-button w-button" onClick={connectWallet}>CONNECT WALLET</a>
       </div>
 
+      <div className="section-background mint"></div>
     </section>
+    
   )
 }
 
