@@ -1,0 +1,7 @@
+{
+    "NFT_CONTRACT": "0x16065aA7085b290b971B178aF36E129A6aEA3825",
+    "NETWORK_ID": 5, 
+    "BLOCKCHAIN_EXPLORER": "https://goerli.etherscan.io/",
+    "NETWORK" : "Goerli", 
+    "MARKETPLACE_URL": "https://testnets.opensea.io"
+}
