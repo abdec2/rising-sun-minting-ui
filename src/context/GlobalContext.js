@@ -7,7 +7,9 @@ import contractAbi from './../abi/abi.json'
 
 const initialState = {
     account: null, 
-    web3Provider: null
+    web3Provider: null, 
+    maxSupply: null, 
+    totalSupply:null
 }
 
 export const GlobalContext = createContext(initialState)
@@ -35,6 +37,34 @@ export const GlobalProvider = ({ children }) => {
         })
     }
 
+    const updateMaxSupply = (maxSupply) => {
+        dispatch({
+            type: 'UPDATE_MAX_SUPPLY',
+            payload: maxSupply
+        })
+    }
+
+    const updateTotalSupply = (totalSupply) => {
+        dispatch({
+            type: 'UPDATE_TOTAL_SUPPLY',
+            payload: totalSupply
+        })
+    }
+
+    const fetchBlockchainData = async () => {
+        try {
+            const provider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_ALCHEMY_ENDPOINT)
+            const contract = new ethers.Contract(CONFIG.NFT_CONTRACT, contractAbi, provider)
+            const max_supply = await contract.maxSupply()
+            const total_supply = await contract.totalSupply()
+            updateMaxSupply(max_supply.toString())
+            updateTotalSupply(total_supply.toString())
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
    
 
     return (
@@ -43,7 +73,10 @@ export const GlobalProvider = ({ children }) => {
                 ...state,
                 delAccount, 
                 addAccount,
-                updateProvider            
+                updateProvider,
+                updateMaxSupply,
+                updateTotalSupply,
+                fetchBlockchainData            
             }
         }
         >

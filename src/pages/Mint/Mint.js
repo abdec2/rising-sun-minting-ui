@@ -8,6 +8,7 @@ import LoadingComponent from "../../components/LoadingComponent"
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useCallback } from "react"
 
 const MySwal = withReactContent(Swal)
 
@@ -20,7 +21,7 @@ const style1 = {
 }
 
 const Mint = () => {
-    const { account, web3Provider } = useContext(GlobalContext)
+    const { account, web3Provider, fetchBlockchainData, totalSupply, maxSupply } = useContext(GlobalContext)
     const [mintAmount, setMintAmount] = useState(1);
     const [loading, setLoading] = useState(false)
     const [cost, setCost] = useState(0);
@@ -73,6 +74,7 @@ const Mint = () => {
             const tx = await contract.mint(mintAmount, txObj)
             await tx.wait()
             setLoading(false)
+            fetchBlockchainData()
             Swal.fire({
                 icon: 'success',
                 title: 'Congratulations!',
@@ -100,6 +102,9 @@ const Mint = () => {
             <section className="mint-shadow-descendants wf-section">
                 <h1 data-w-id="305b0432-788c-4bf6-4b65-0cab51909f88" style={style1} className="main-title mint">MINT Shadow Descendants</h1>
                 <div className="mint-content-holder">
+                    <div data-w-id="1e9f008d-3b16-26ec-972f-28ec3f78cf8b" style={{ opacity: '0' }} className="typo-number-button tw-cursor-default tw-text-[#f6e7c9]">
+                        {totalSupply ? totalSupply : 0} NFTs Minted Out of {maxSupply ? maxSupply : 0}
+                    </div>
                     <div data-w-id="1e9f008d-3b16-26ec-972f-28ec3f78cf8b" style={{ opacity: '0' }} className="typo-howmany">How many NFTS you want to mint?</div>
                     <div className="button-holder numbers">
                         <div data-w-id="19c5a547-2677-698c-be60-eea6a54e999a" style={{ opacity: '0' }} className={classNames('button-nav-small numbers-mint', {})} onClick={decrement}>

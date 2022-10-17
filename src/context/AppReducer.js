@@ -16,6 +16,17 @@ export const AppReducer = (state, action) => {
                 ...state,
                 web3Provider: action.payload
             }
+
+        case 'UPDATE_MAX_SUPPLY':
+            return {
+                ...state,
+                maxSupply: action.payload
+            }
+        case 'UPDATE_TOTAL_SUPPLY':
+            return {
+                ...state,
+                totalSupply: action.payload
+            }
         
         default:
             return state;
